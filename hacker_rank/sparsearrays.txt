@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_STRING_LENGTH 101
+#define MAX_STRINGS 1000
+#define MAX_QUERIES 1000
+
+int* matchString(char** strings, int strings_count, char** queries, int queries_count) {
+    int* res= malloc(queries_count * sizeof(int));
+    
+    for (int i = 0; i < queries_count; i++) {
+        int count = 0;
+        for (int j = 0; j < strings_count; j++) {
+            if (strcmp(queries[i], strings[j]) == 0) {
+                count++;
+            }
+        }
+        res[i] = count;
+    }
+
+    return res;
+}
+
+int main() {
+    int n, q;
+    
+    
+    scanf("%d", &n);
+    char** strings = malloc(n * sizeof(char*));
+    for (int i = 0; i < n; i++) {
+        strings[i] = malloc(MAX_STRING_LENGTH * sizeof(char));
+        scanf("%s", strings[i]);
+    }
+
+    
+    scanf("%d", &q);
+    char** queries = malloc(q * sizeof(char*));
+    for (int i = 0; i < q; i++) {
+        queries[i] = malloc(MAX_STRING_LENGTH * sizeof(char));
+        scanf("%s", queries[i]);
+    }
+
+    
+    int* res = matchString(strings, n, queries, q);
+
+    
+    for (int i = 0; i < q; i++) {
+        printf("%d\n", res[i]);
+    }
+
+    // Free memory
+    for (int i = 0; i < n; i++) {
+        free(strings[i]);
+    }
+    free(strings);
+
+    for (int i = 0; i < q; i++) {
+        free(queries[i]);
+    }
+    free(queries);
+    free(res);
+
+    return 0;
+}
+
